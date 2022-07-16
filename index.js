@@ -5,7 +5,6 @@ dotenv.config()
 // TODO: modify to use pagination - https://docs.api.wanikani.com/20170710/#pagination
 const getThatData = async (apiEndpointPath) => {
   var apiToken = process.env.TOKEN;
-  // var apiEndpointPath = 'subjects';
   
   const response = await fetch('https://api.wanikani.com/v2/' + apiEndpointPath, {
     method: 'GET',
@@ -13,32 +12,40 @@ const getThatData = async (apiEndpointPath) => {
   });
   
   const data = await response.json();
-  // console.log(JSON.stringify(data));
   return data.data;
 }
 
 
-const getKnownRadicals = async () => {
+const getRadicals = async () => {
   var apiEndpointPath = 'subjects?subject_type=radical';
-  let datData = await getThatData(apiEndpointPath)
-
-
-  console.log("🚀 ~ file: index.js ~ line 23 ~ getKnownRadicals ~ datData", datData)
-  
-
-  // const known = datData.filter(word => word.length > 6);
-
-  // filtering so only known remain
-
-  /*
-  use subject_type attribute to filter by items type (kanji, radical, vocab)
-burned items will have burned attribute set to a burn date (not yet burned have it set to null)
-started_at will be null if you haven’t completed a lesson for this item, other wise it will have a timestamp of when you completed the lesson
-  */
+  let radicals = await getThatData(apiEndpointPath);
+  return radicals;
 }
 
-const getKnownAssignments = () => {
-  getKnownRadicals();
+const getRadicalAssignments = async () => {
+
+    /*
+  use subject_type attribute to filter by items type (kanji, radical, vocab)
+  burned items will have burned attribute set to a burn date (not yet burned have it set to null)
+  started_at will be null if you haven’t completed a lesson for this item, other wise it will have a timestamp of when you completed the lesson
+  */
+
+  // filtering so only known remain
+  // *testing
+  // datData.forEach(element => {
+  //   console.log(element)
+  // });
+  // *testing
+
+  const known = datData.filter(item => item.data.started_at != null);
+  console.log("🚀 ~ file: index.js ~ line 32 ~ getKnownRadicals ~ known", known)
+}
+
+
+const getKnownAssignments = async () => {
+  getRadicals();
+  getRadicalAssignments();
+  let radicals = await getRadicals();
 }
 
 getKnownAssignments();
