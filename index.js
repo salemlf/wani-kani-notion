@@ -17,35 +17,25 @@ const getThatData = async (apiEndpointPath) => {
 
 
 const getRadicals = async () => {
-  var apiEndpointPath = 'subjects?subject_type=radical';
+  var apiEndpointPath = 'subjects?type=radical';
   let radicals = await getThatData(apiEndpointPath);
   return radicals;
 }
 
-const getRadicalAssignments = async () => {
+const getStartedRadicalAssignments = async () => {
+  let apiEndpointPath = "assignments?subject_types=radical&started=true";
+  let assignments = await getThatData(apiEndpointPath);
 
-    /*
-  use subject_type attribute to filter by items type (kanji, radical, vocab)
-  burned items will have burned attribute set to a burn date (not yet burned have it set to null)
-  started_at will be null if you haven’t completed a lesson for this item, other wise it will have a timestamp of when you completed the lesson
-  */
-
-  // filtering so only known remain
   // *testing
-  // datData.forEach(element => {
-  //   console.log(element)
-  // });
+  console.log("🚀 ~ file: index.js ~ line 41 ~ getRadicalAssignments ~ assignments", assignments)
+  console.log("Radicals started: ", assignments.length);
   // *testing
-
-  const known = datData.filter(item => item.data.started_at != null);
-  console.log("🚀 ~ file: index.js ~ line 32 ~ getKnownRadicals ~ known", known)
 }
 
-
-const getKnownAssignments = async () => {
+// referencing this a bit: https://community.wanikani.com/t/getting-a-list-of-all-wanikani-kanji-known-and-unknown/51203/6
+const getStartedAssignments = async () => {
   getRadicals();
-  getRadicalAssignments();
-  let radicals = await getRadicals();
+  getStartedRadicalAssignments();
 }
 
-getKnownAssignments();
+getStartedAssignments();
