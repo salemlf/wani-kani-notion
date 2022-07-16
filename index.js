@@ -36,6 +36,8 @@ const getStartedRadicalAssignments = async () => {
 const getStartedAssignments = async () => {
   getRadicals();
   getStartedRadicalAssignments();
+
+  // TODO: filter to get info on specific subjects: https://docs.api.wanikani.com/20170710/#get-a-specific-subject
 }
 
 getStartedAssignments();
